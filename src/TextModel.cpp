@@ -15,17 +15,17 @@ void TextModel::appendText(const std::string& text) {
         _lettersMap[c] = entry ? entry + 1 : 1;
     }
 
-    _text += text;
+    _textData += text;
 }
 
 std::string TextModel::getCurrentTextData() const {
-    return _text;
+    return _textData;
 }
 
 Config::LettersFrequency TextModel::constructLettersFrequency(Config::LettersFrequencyType type) const {
     auto comparator = type == Config::LettersFrequencyType::MOST_COMMON ? cmpHighest : cmpLowest;
 
-    std::priority_queue<Config::LETTER_PAIR, Config::LettersFrequency, decltype(comparator)> lettersFrequency;
+    std::priority_queue<Config::LETTER_PAIR, Config::LettersFrequency, decltype(comparator)> lettersFrequency(comparator);
 
     for (const auto&[letter, frequency] : _lettersMap) {
         lettersFrequency.push(std::make_pair(letter, frequency));
@@ -44,14 +44,24 @@ Config::LettersFrequency TextModel::constructLettersFrequency(Config::LettersFre
     return vec;
 }
 
-Config::LETTER_PAIR TextModel::constructOccurrenceProbability(const char c) const {
+std::pair<char, float> TextModel::constructCharOccurrenceProbability(const char c) const {
     auto mapEntry = _lettersMap.find(c);
 
     if (mapEntry == _lettersMap.end()) {
         return std::make_pair(c, 0);
     }
 
-    auto probability = mapEntry->second / _text.length();
+    float probability  = static_cast<float>(mapEntry->second) / static_cast<float>(_textData.length());
 
     return std::make_pair(c, probability);
+}
+
+void TextModel::connect(Listener l) {
+    _listeners.push_back(l);
+}
+
+void TextModel::notify() const {
+    for (const auto& listener: _listeners) {
+        listener(_textData);
+    }
 }

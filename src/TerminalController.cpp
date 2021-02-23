@@ -4,7 +4,6 @@
 
 #include <iostream>
 #include <mutex>
-#include <utility>
 
 #include "../include/TerminalController.h"
 #include "../include/TerminalView.h"
@@ -29,7 +28,7 @@ void TerminalController::acceptCommandFromStdout() {
         }
     });
 
-    th1.detach();
+    th1.join();
 }
 
 void TerminalController::handleCommand(const Config::Commands command) {
@@ -42,19 +41,15 @@ void TerminalController::handleCommand(const Config::Commands command) {
 
             const std::vector<Config::LETTER_PAIR> &frequency = _textModel.constructLettersFrequency(Config::LettersFrequencyType::MOST_COMMON);
 
-            TerminalView::displayCharsFrequency(frequency);
+            _terminalView.displayCharsFrequency(frequency);
             break;
         }
         case Config::Commands::OCCURRENCE_PROBABILITY: {
-            TerminalView::promptCharacter();
+            const char c = _terminalView.getCharacter();
 
-            char c;
+            const auto&[character, probability] = _textModel.constructCharOccurrenceProbability(c);
 
-            std::cin >> c;
-
-            const auto&[character, probability] = _textModel.constructOccurrenceProbability(c);
-
-            TerminalView::displayOccurrenceProbability(character, probability);
+            _terminalView.displayOccurrenceProbability(character, probability);
             break;
         }
         case Config::Commands::RAREST_LETTERS: {
@@ -66,13 +61,12 @@ void TerminalController::handleCommand(const Config::Commands command) {
             std::cout << "Invalid command";
         }
     }
-
-}
-
-void TerminalController::appendTextData(const std::string &text) {
-    _textData += text;
 }
 
 TerminalController::TerminalController(const TextModel &model, const TerminalView &view) : _textModel(model),
                                                                                            _terminalView(view) {
+}
+
+void TerminalController::notify() {
+    _commandCv.notify_one();
 }

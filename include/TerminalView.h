@@ -14,15 +14,13 @@
 
 class TerminalView {
 public:
-    TerminalView() = default;
+    void printUsage() const;
 
-    static void printUsage();
+    void displayCharsFrequency(const std::vector<Config::LETTER_PAIR> &) const;
 
-    static void displayCharsFrequency(const std::vector<Config::LETTER_PAIR> &);
+    char getCharacter() const;
 
-    static void promptCharacter();
-
-    static void displayOccurrenceProbability(const char, const int &);
+    void displayOccurrenceProbability(const char, const float &) const;
 };
 
 #endif //THREADEDFILES_TERMINALVIEW_H

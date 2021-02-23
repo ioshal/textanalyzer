@@ -6,8 +6,11 @@
 #include <utility>
 
 #include "../include/FileReader.h"
+#include "../include/TextModel.h"
 
-FileReader::FileReader(std::string filename, const int &numOfWorkers) : _filename(std::move(filename)),
+FileReader::FileReader(std::string filename, TextModel& m, const int &numOfWorkers) :
+                                                                        _filename(std::move(filename)),
+                                                                        _textModel(m),
                                                                         _numOfWorkers(numOfWorkers) {
 }
 
@@ -20,7 +23,6 @@ void FileReader::read() {
 
     for (int i = 0; i < _numOfWorkers; ++i) {
         _workers.push_back(std::thread([&]() {
-
             std::fstream file(_filename);
 
             std::string input;
@@ -29,8 +31,12 @@ void FileReader::read() {
                 file >> input;
 
                 std::cout << input;
+                _textModel.appendText(input);
             }
         }));
     }
 
+    for (std::thread& worker : _workers) {
+        worker.detach();
+    }
 }

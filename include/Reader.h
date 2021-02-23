@@ -6,6 +6,8 @@
 #define THREADEDFILES_READER_H
 
 #include <iostream>
+#include <functional>
+#include <list>
 
 class Reader {
 public:

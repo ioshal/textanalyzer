@@ -21,13 +21,10 @@ public:
 
     void acceptCommandFromStdout();
 
-    void appendTextData(const std::string&);
-
+    void notify();
 private:
     std::mutex _commandMutex;
     std::condition_variable _commandCv;
-
-    std::string _textData;
 
     void handleCommand(const Config::Commands command);
 

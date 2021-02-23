@@ -11,19 +11,23 @@
 
 #include "Reader.h"
 
+class TextModel;
+
 class FileReader: public Reader {
 public:
-    explicit FileReader() = default;
-    FileReader(std::string filename, const int& numOfWorkers = 2);
+    FileReader(std::string filename, TextModel&, const int& numOfWorkers = 1);
 
     ~FileReader() = default;
 
     virtual void read() override;
 
+
 private:
     std::string _filename;
     int _numOfWorkers;
     bool isReading = false;
+
+    TextModel& _textModel;
 
     std::vector<std::thread> _workers;
 };
