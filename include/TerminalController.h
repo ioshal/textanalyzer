@@ -20,8 +20,6 @@ public:
     TerminalController(const TextModel&, const TerminalView&);
 
     void acceptCommandFromStdout();
-
-    void notify();
 private:
     std::mutex _commandMutex;
     std::condition_variable _commandCv;

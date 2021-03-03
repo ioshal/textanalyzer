@@ -66,7 +66,3 @@ void TerminalController::handleCommand(const Config::Commands command) {
 TerminalController::TerminalController(const TextModel &model, const TerminalView &view) : _textModel(model),
                                                                                            _terminalView(view) {
 }
-
-void TerminalController::notify() {
-    _commandCv.notify_one();
-}

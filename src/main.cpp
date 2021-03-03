@@ -1,6 +1,3 @@
-#include <iostream>
-#include <string>
-
 #include "../include/TerminalView.h"
 #include "../include/TerminalController.h"
 #include "../include/TextModel.h"
@@ -13,13 +10,7 @@ int main() {
     TerminalView view;
     TerminalController controller(model, view);
 
-    string filename;
-
-    cout << "Enter a filename: ";
-
-    cin >> filename;
-
-    FileReader reader(filename, model);
+    FileReader reader("ex.txt", model);
 
     reader.read();
 

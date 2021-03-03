@@ -20,8 +20,6 @@ public:
     ~FileReader() = default;
 
     virtual void read() override;
-
-
 private:
     std::string _filename;
     int _numOfWorkers;
