@@ -1,3 +1,5 @@
+#include <filesystem>
+
 #include "../include/TerminalView.h"
 #include "../include/TerminalController.h"
 #include "../include/TextModel.h"
@@ -10,7 +12,7 @@ int main() {
     TerminalView view;
     TerminalController controller(model, view);
 
-    FileReader reader("ex.txt", model);
+    FileReader reader("../data", model);
 
     reader.read();
 

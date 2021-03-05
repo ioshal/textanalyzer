@@ -34,8 +34,6 @@ void TerminalController::acceptCommandFromStdout() {
 void TerminalController::handleCommand(const Config::Commands command) {
     std::unique_lock<std::mutex> lock(_commandMutex);
 
-    _commandCv.wait(lock);
-
     switch (command) {
         case Config::Commands::MOST_COMMON_LETTERS: {
 
@@ -55,6 +53,7 @@ void TerminalController::handleCommand(const Config::Commands command) {
         case Config::Commands::RAREST_LETTERS: {
             const std::vector<Config::LETTER_PAIR> &frequency = _textModel.constructLettersFrequency(Config::LettersFrequencyType::RAREST);
 
+            _terminalView.displayCharsFrequency(frequency);
             break;
         }
         default: {

@@ -22,7 +22,6 @@ public:
     void acceptCommandFromStdout();
 private:
     std::mutex _commandMutex;
-    std::condition_variable _commandCv;
 
     void handleCommand(const Config::Commands command);
 

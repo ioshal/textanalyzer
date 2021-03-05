@@ -8,6 +8,8 @@
 #include <iostream>
 #include <thread>
 #include <vector>
+#include <string>
+#include <mutex>
 
 #include "Reader.h"
 
@@ -15,19 +17,18 @@ class TextModel;
 
 class FileReader: public Reader {
 public:
-    FileReader(std::string filename, TextModel&, const int& numOfWorkers = 1);
+    FileReader(std::string, TextModel&);
 
     ~FileReader() = default;
 
     virtual void read() override;
 private:
-    std::string _filename;
-    int _numOfWorkers;
     bool isReading = false;
-
+    std::string _dataPath;
     TextModel& _textModel;
 
     std::vector<std::thread> _workers;
+    std::mutex _mutex;
 };
 
 
