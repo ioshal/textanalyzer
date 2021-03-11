@@ -14,8 +14,6 @@ public:
     virtual void read() = 0;
 
     virtual ~Reader() = default;
-protected:
-    std::string buffer;
 };
 
 

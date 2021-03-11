@@ -55,13 +55,3 @@ std::pair<char, float> TextModel::constructCharOccurrenceProbability(const char 
 
     return std::make_pair(c, probability);
 }
-
-void TextModel::connect(Listener l) {
-    _listeners.push_back(l);
-}
-
-void TextModel::notify() const {
-    for (const auto& listener: _listeners) {
-        listener(_textData);
-    }
-}

@@ -20,11 +20,9 @@ void TerminalController::acceptCommandFromStdout() {
 
             auto command = static_cast<Config::Commands>(input);
 
-            std::thread th2([&]() {
-                handleCommand(command);
-            });
+            handleCommand(command);
 
-            th2.join();
+            std::cout << "Command: ";
         }
     });
 
@@ -54,6 +52,11 @@ void TerminalController::handleCommand(const Config::Commands command) {
             const std::vector<Config::LETTER_PAIR> &frequency = _textModel.constructLettersFrequency(Config::LettersFrequencyType::RAREST);
 
             _terminalView.displayCharsFrequency(frequency);
+            break;
+        }
+        case Config::Commands::HELP: {
+            _terminalView.printUsage();
+
             break;
         }
         default: {

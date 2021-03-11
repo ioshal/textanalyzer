@@ -5,7 +5,6 @@
 #include <fstream>
 #include <utility>
 #include <filesystem>
-#include <vector>
 
 #include "../include/FileReader.h"
 #include "../include/TextModel.h"
@@ -22,8 +21,6 @@ void FileReader::read() {
     }
 
     isReading = true;
-
-    std::vector<std::string> filenames;
 
     for (const auto& file : std::filesystem::directory_iterator(_dataPath)) {
         _workers.push_back(std::thread([&]() {

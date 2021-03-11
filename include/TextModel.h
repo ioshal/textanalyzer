@@ -25,8 +25,6 @@ namespace {
     };
 
     const int NUMBER_OF_MOST_COMMON_LETTERS = 5;
-
-    using Listener = std::function<void(const std::string&)>;
 }
 
 class TextModel {
@@ -37,13 +35,8 @@ public:
     [[nodiscard]] Config::LettersFrequency constructLettersFrequency(const Config::LettersFrequencyType) const;
 
     [[nodiscard]] std::pair<char, float> constructCharOccurrenceProbability(const char i) const;
-
-    void connect(Listener);
-    void notify() const;
 private:
     std::string _textData;
-
-    std::list<Listener> _listeners;
 
     std::map<char, int> _lettersMap;
 };

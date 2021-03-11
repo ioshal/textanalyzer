@@ -1,5 +1,7 @@
 
 #include <iomanip>
+#include <stdio.h>
+#include <string.h>
 
 #include "../include/TerminalView.h"
 
