@@ -15,12 +15,11 @@
 class TerminalView {
 public:
     void printUsage() const;
-
     void displayCharsFrequency(const std::vector<Config::LETTER_PAIR> &) const;
+    void displayOccurrenceProbability(const char, const float &) const;
 
     char getCharacter() const;
-
-    void displayOccurrenceProbability(const char, const float &) const;
+    const int getNumberOfLetters() const;
 };
 
 #endif //THREADEDFILES_TERMINALVIEW_H

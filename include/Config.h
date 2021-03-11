@@ -21,10 +21,10 @@ namespace Config {
     };
 
     static std::map<Commands, Command> availableCommands = {
-            {Commands::MOST_COMMON_LETTERS,    {"5 most common letters",  "Prints 5 most common letters from the provided text"}},
+            {Commands::MOST_COMMON_LETTERS,    {"most common letters",  "Prints N most common letters from the provided text"}},
             {Commands::OCCURRENCE_PROBABILITY, {"probability occurrence", "Probability of a letter occurring in a text"}},
-            {Commands::RAREST_LETTERS,         {"3 rarest letters",       "Prints 3 rarest letters from the provided text"}},
-            {Commands::HELP,         {"help",       "помагите"}}
+            {Commands::RAREST_LETTERS,         {"rarest letters",       "Prints N rarest letters from the provided text"}},
+            {Commands::HELP,         {"help",       "help..."}}
     };
 
     using LETTER_PAIR = std::pair<char, int>;

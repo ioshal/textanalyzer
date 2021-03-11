@@ -12,21 +12,23 @@
 void TerminalController::acceptCommandFromStdout() {
     isRunning = true;
 
-    std::thread th1([&]() {
-        int input;
+    int input;
 
-        while (isRunning) {
-            std::cin >> input;
+    while (isRunning) {
+        std::cin >> input;
 
-            auto command = static_cast<Config::Commands>(input);
+        auto command = static_cast<Config::Commands>(input);
 
+        std::thread commandThread([&]() {
             handleCommand(command);
+        });
 
-            std::cout << "Command: ";
-        }
-    });
+        std::cout << "Calculating result...";
 
-    th1.join();
+        commandThread.join();
+
+        std::cout << "Command: ";
+    }
 }
 
 void TerminalController::handleCommand(const Config::Commands command) {
@@ -34,8 +36,10 @@ void TerminalController::handleCommand(const Config::Commands command) {
 
     switch (command) {
         case Config::Commands::MOST_COMMON_LETTERS: {
+            const int numberOfLettersForCalculation = _terminalView.getNumberOfLetters();
 
-            const std::vector<Config::LETTER_PAIR> &frequency = _textModel.constructLettersFrequency(Config::LettersFrequencyType::MOST_COMMON);
+            const std::vector<Config::LETTER_PAIR> &frequency = _textModel.constructLettersFrequency(
+                    Config::LettersFrequencyType::MOST_COMMON, numberOfLettersForCalculation);
 
             _terminalView.displayCharsFrequency(frequency);
             break;
@@ -49,7 +53,10 @@ void TerminalController::handleCommand(const Config::Commands command) {
             break;
         }
         case Config::Commands::RAREST_LETTERS: {
-            const std::vector<Config::LETTER_PAIR> &frequency = _textModel.constructLettersFrequency(Config::LettersFrequencyType::RAREST);
+            const int numberOfLettersForCalculation = _terminalView.getNumberOfLetters();
+
+            const std::vector<Config::LETTER_PAIR> &frequency = _textModel.constructLettersFrequency(
+                    Config::LettersFrequencyType::RAREST, numberOfLettersForCalculation);
 
             _terminalView.displayCharsFrequency(frequency);
             break;

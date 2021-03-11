@@ -1,7 +1,4 @@
-
 #include <iomanip>
-#include <stdio.h>
-#include <string.h>
 
 #include "../include/TerminalView.h"
 
@@ -33,4 +30,14 @@ void TerminalView::displayOccurrenceProbability(const char c, const float &proba
     const int PRECISION = 10;
 
     std::cout << "[letter: " << c << ", occurrence_probability: " << probability << "] " << std::setprecision(PRECISION) << std::endl;
+}
+
+const int TerminalView::getNumberOfLetters() const {
+    std::cout << "Input number of letters for calculation: " << std::endl;
+
+    int c;
+
+    std::cin >> c;
+
+    return c;
 }

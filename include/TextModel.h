@@ -23,8 +23,6 @@ namespace {
     constexpr auto cmpLowest = [](const Config::LETTER_PAIR &a, const Config::LETTER_PAIR &b) {
         return a.second > b.second;
     };
-
-    const int NUMBER_OF_MOST_COMMON_LETTERS = 5;
 }
 
 class TextModel {
@@ -32,7 +30,7 @@ public:
     void appendText(const std::string& text);
     [[nodiscard]] std::string getCurrentTextData() const;
 
-    [[nodiscard]] Config::LettersFrequency constructLettersFrequency(const Config::LettersFrequencyType) const;
+    [[nodiscard]] Config::LettersFrequency constructLettersFrequency(const Config::LettersFrequencyType, const int& = 5) const;
 
     [[nodiscard]] std::pair<char, float> constructCharOccurrenceProbability(const char i) const;
 private:

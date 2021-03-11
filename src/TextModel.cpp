@@ -22,7 +22,7 @@ std::string TextModel::getCurrentTextData() const {
     return _textData;
 }
 
-Config::LettersFrequency TextModel::constructLettersFrequency(Config::LettersFrequencyType type) const {
+Config::LettersFrequency TextModel::constructLettersFrequency(Config::LettersFrequencyType type, const int& numberOfLettersForCalculation) const {
     auto comparator = type == Config::LettersFrequencyType::MOST_COMMON ? cmpHighest : cmpLowest;
 
     std::priority_queue<Config::LETTER_PAIR, Config::LettersFrequency, decltype(comparator)> lettersFrequency(comparator);
@@ -31,10 +31,12 @@ Config::LettersFrequency TextModel::constructLettersFrequency(Config::LettersFre
         lettersFrequency.push(std::make_pair(letter, frequency));
     }
 
-    Config::LettersFrequency vec;
-    vec.reserve(NUMBER_OF_MOST_COMMON_LETTERS);
+    const int MAX_NUMBER_OF_LETTERS = numberOfLettersForCalculation > _lettersMap.size() ? _lettersMap.size() : numberOfLettersForCalculation;
 
-    for (int i = 0; i < NUMBER_OF_MOST_COMMON_LETTERS; ++i) {
+    Config::LettersFrequency vec;
+    vec.reserve(MAX_NUMBER_OF_LETTERS);
+
+    for (int i = 0; i < MAX_NUMBER_OF_LETTERS; ++i) {
         const Config::LETTER_PAIR &entry = lettersFrequency.top();
         lettersFrequency.pop();
 
